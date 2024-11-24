@@ -8,9 +8,8 @@ export const getPosts = async (req, res) => {
     const posts = await prisma.post.findMany({
       where: {
         city: query.city || undefined,
-        type: query.type || undefined,
+        status: query.type || undefined,
         property: query.property || undefined,
-        type: query.type || undefined,
         bedroom: parseInt(query.bedroom) || undefined,
         price: {
           gte: parseInt(query.minPrice) || 0,
@@ -58,24 +57,25 @@ export const getPost = async (req, res) => {
       });
     }
 
-    const saved = await prisma.savedPost.findUnique({
-      where: {
-        userId_postId: {
-          postId: id,
-          userId,
-        },
-      },
-    });
-    // const saved = userId
-    //   ? await prisma.savedPost.findUnique({
-    //       where: {
-    //         userId_postId: {
-    //           postId: id,
-    //           userId,
-    //         },
-    //       },
-    //     })
-    //   : null;
+    // const saved = await prisma.savedPost.findUnique({
+    //   where: {
+    //     userId_postId: {
+    //       postId: id,
+    //       userId,
+    //     },
+    //   },
+    // });
+
+    const saved = userId
+      ? await prisma.savedPost.findUnique({
+          where: {
+            userId_postId: {
+              postId: id,
+              userId,
+            },
+          },
+        })
+      : null;
 
     res.status(200).json({ ...post, isSaved: saved ? true : false });
   } catch (err) {

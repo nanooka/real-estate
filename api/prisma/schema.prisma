@@ -21,35 +21,34 @@ model User {
 }
 
 model Post {
-  id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  title      String
-  price      Int
-  images     String[]
-  address    String
-  city       String
-  bedroom    Int
-  bathroom   Int
-  latitude   String
-  longitude  String
-  type       Type
-  property   Property
-  createdAt  DateTime    @default(now())
-  user       User        @relation(fields: [userId], references: [id])
-  userId     String      @db.ObjectId
-  postDetail PostDetail?
-  savedPosts SavedPost[]
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  title        String
+  price        Int
+  images       String[]
+  address      String
+  country      String?
+  city         String
+  bedroom      Int
+  bathroom     Int
+  latitude     String
+  longitude    String
+  status       Status
+  propertyType propertyType
+  createdAt    DateTime     @default(now())
+  user         User         @relation(fields: [userId], references: [id])
+  userId       String       @db.ObjectId
+  postDetail   PostDetail?
+  savedPosts   SavedPost[]
 }
 
-enum Type {
-  buy
+enum Status {
+  sale
   rent
 }
 
-enum Property {
+enum propertyType {
   apartment
   house
-  condo
-  land
 }
 
 model PostDetail {
