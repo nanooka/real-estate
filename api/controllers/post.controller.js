@@ -7,6 +7,7 @@ export const getPosts = async (req, res) => {
   try {
     const posts = await prisma.post.findMany({
       where: {
+        country: query.country || undefined,
         city: query.city || undefined,
         status: query.type || undefined,
         property: query.property || undefined,
@@ -14,6 +15,10 @@ export const getPosts = async (req, res) => {
         price: {
           gte: parseInt(query.minPrice) || 0,
           lte: parseInt(query.maxPrice) || 10000000,
+        },
+        area: {
+          gte: parseInt(query.minArea) || 0,
+          lte: parseInt(query.maxArea) || 10000000,
         },
       },
     });
