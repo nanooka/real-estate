@@ -13,6 +13,7 @@ model User {
   username   String      @unique
   password   String
   avatar     String?
+  phone      String
   createdAt  DateTime    @default(now())
   posts      Post[]
   savedPosts SavedPost[]
