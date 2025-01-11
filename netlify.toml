@@ -1,0 +1,6 @@
+# Netlify configuration file
+[build]
+  base = "real-estate"
+  publish = "./client"
+  build = "npm run build"
+  functions = "./api"
