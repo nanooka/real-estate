@@ -1,6 +1,0 @@
-# Netlify configuration file
-[build]
-  base = "."
-  publish = "./client"
-  build = "git submodule update --init --recursive && npm run build"
-  functions = "./api"
