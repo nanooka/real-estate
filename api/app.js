@@ -12,7 +12,7 @@ const app = express();
 
 // const allowedOrigins = [
 //   "http://localhost:5173",
-//   "https://your-netlify-domain.netlify.app",
+//   "https://real-estate-nanooka.netlify.app",
 // ];
 
 // app.use(
