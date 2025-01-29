@@ -2,9 +2,15 @@ import { Server } from "socket.io";
 
 const io = new Server({
   cors: {
-    origin: "https://real-estate-nanooka.netlify.app",
+    origin: "http://localhost:5173",
   },
 });
+
+// const io = new Server({
+//   cors: {
+//     origin: "https://real-estate-nanooka.netlify.app",
+//   },
+// });
 
 let onlineUser = [];
 

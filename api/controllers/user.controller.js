@@ -28,16 +28,32 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
   const id = req.params.id;
   const tokenUserId = req.userId;
-  const { password, avatar, ...inputs } = req.body;
+  const { oldPassword, newPassword, avatar, ...inputs } = req.body;
 
   if (id !== tokenUserId)
     return res.status(403).json({ message: "not authorized" });
 
-  let updatedPassword = null;
+  // let updatedPassword = null;
 
   try {
-    if (password) {
-      updatedPassword = await bcrypt.hash(password, 10);
+    // if (password) {
+    //   updatedPassword = await bcrypt.hash(password, 10);
+    // }
+
+    const user = await prisma.user.findUnique({ where: { id } });
+
+    if (oldPassword) {
+      const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+      if (!isPasswordValid) {
+        return res
+          .status(400)
+          .json({ message: "Current password is incorrect" });
+      }
+    }
+
+    let updatedPassword = null;
+    if (newPassword) {
+      updatedPassword = await bcrypt.hash(newPassword, 10);
     }
 
     const updatedUser = await prisma.user.update({
@@ -45,7 +61,8 @@ export const updateUser = async (req, res) => {
       data: {
         ...inputs,
         ...(updatedPassword && { password: updatedPassword }),
-        ...(avatar && { avatar }),
+        // ...(avatar && { avatar }),
+        avatar,
       },
     });
 
