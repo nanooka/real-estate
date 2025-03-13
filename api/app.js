@@ -13,7 +13,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://real-estate-nanooka.netlify.app",
-  "https://celebrated-muffin-b7ddbb.netlify.app",
+  "https://loquacious-sundae-9614aa.netlify.app",
 ];
 
 // app.use(
