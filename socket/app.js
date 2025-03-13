@@ -14,7 +14,7 @@ import { Server } from "socket.io";
 
 const io = new Server({
   cors: {
-    origin: "https://loquacious-sundae-9614aa.netlify.app",
+    origin: "https://real-estate-nanooka.netlify.app",
   },
 });
 
