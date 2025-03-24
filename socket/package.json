@@ -5,6 +5,9 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "build": "echo 'No build process required for this project'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
