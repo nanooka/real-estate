@@ -12,8 +12,10 @@ model User {
   email      String      @unique
   username   String      @unique
   password   String
+  // googleId   String?     @unique(map: "unique_googleId")
+  googleId   String?
   avatar     String?
-  phone      String
+  phone      String?
   createdAt  DateTime    @default(now())
   posts      Post[]
   savedPosts SavedPost[]
