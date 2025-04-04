@@ -111,7 +111,7 @@ export const googleAuth = async (req, res) => {
           email,
           password: "", // No password needed for Google users
           phone: "", // Optional, can be updated later
-          googleId, // Store Google ID
+          // googleId, // Store Google ID
         },
       });
     }
