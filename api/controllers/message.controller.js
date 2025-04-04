@@ -31,7 +31,7 @@ export const addMessage = async (req, res) => {
       },
       data: {
         seenBy: [tokenUserId],
-        lastMessage: text,
+        lastMessage: [text, tokenUserId],
       },
     });
 

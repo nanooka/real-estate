@@ -11,35 +11,12 @@ import messageRoute from "./routes/message.route.js";
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://real-estate-nanooka.netlify.app",
+  process.env.CLIENT_URL_LOCAL,
+  process.env.CLIENT_URL_DEPLOYMENT,
 ];
-
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (allowedOrigins.includes(origin) || !origin) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//   })
-// );
 
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-// app.use((req, res, next) => {
-//   res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-//   res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-//   next();
-// });
-
-// app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-// app.use(
-//   cors({ origin: "https://real-estate-nanooka.netlify.app", credentials: true })
-// );
 app.use(express.json());
 app.use(cookieParser());
 
@@ -53,4 +30,3 @@ app.use("/api/messages", messageRoute);
 app.listen(8800, () => {
   console.log("Server is running on 8800");
 });
-// 04:08
