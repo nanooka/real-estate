@@ -1,4 +1,8 @@
 import { Server } from "socket.io";
+// import "dotenv/config";
+
+// const URL = process.env.CLIENT_URL_LOCAL;
+// const URL = process.env.CLIENT_URL_DEPLOYMENT
 
 // const io = new Server({
 //   cors: {
@@ -11,6 +15,12 @@ const io = new Server({
     origin: "https://real-estate-nanooka.netlify.app",
   },
 });
+
+// const io = new Server({
+//   cors: {
+//     origin: URL,
+//   },
+// });
 
 let onlineUser = [];
 

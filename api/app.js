@@ -14,6 +14,12 @@ const allowedOrigins = [
   process.env.CLIENT_URL_LOCAL,
   process.env.CLIENT_URL_DEPLOYMENT,
 ];
+// console.log(allowedOrigins);
+
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://real-estate-nanooka.netlify.app",
+// ];
 
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 
