@@ -4,6 +4,7 @@ import prisma from "../lib/prisma.js";
 import { OAuth2Client } from "google-auth-library";
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const age = 1000 * 60 * 60 * 24 * 7;
 
 export const register = async (req, res) => {
   const { username, email, password, phone } = req.body;
@@ -51,8 +52,6 @@ export const login = async (req, res) => {
     // generate cookie token and send to the user
     // res.setHeader("Set-Cookie", "test=" + "myValue").json("success");
 
-    const age = 1000 * 60 * 60 * 24 * 7;
-
     const token = jwt.sign(
       {
         id: user.id,
@@ -71,6 +70,8 @@ export const login = async (req, res) => {
         // secure: false,
         maxAge: age,
         sameSite: "None",
+        //
+        credentials: true,
       })
       .status(200)
       .json(userInfo);
@@ -127,8 +128,10 @@ export const googleAuth = async (req, res) => {
       .cookie("token", token, {
         httpOnly: true,
         secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        maxAge: age,
         sameSite: "None",
+        //
+        credentials: true,
       })
       .status(200)
       .json({ message: "Google login successful", user });
