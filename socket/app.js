@@ -62,17 +62,17 @@
 import { Server } from "socket.io";
 
 // Initialize Socket.IO server
-// const io = new Server(4000, {
-//   cors: {
-//     origin: "http://localhost:5173", // Frontend URL
-//   },
-// });
-
 const io = new Server(4000, {
   cors: {
-    origin: "https://real-estate-nanooka.netlify.app", // Frontend URL
+    origin: "http://localhost:5173", // Frontend URL
   },
 });
+
+// const io = new Server(4000, {
+//   cors: {
+//     origin: "https://real-estate-nanooka.netlify.app", // Frontend URL
+//   },
+// });
 
 let onlineUser = [];
 
