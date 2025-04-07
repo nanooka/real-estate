@@ -129,43 +129,21 @@ export const savePost = async (req, res) => {
   }
 };
 
-export const profilePosts = async (req, res) => {
-  const userId = req.userId; // ✅ from the verified token
-
-  try {
-    const userPosts = await prisma.post.findMany({
-      where: { userId },
-    });
-
-    const saved = await prisma.savedPost.findMany({
-      where: { userId },
-      include: {
-        post: true,
-      },
-    });
-
-    const savedPosts = saved.map((item) => item.post);
-
-    res.status(200).json({ userPosts, savedPosts });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Failed to get profile posts" });
-  }
-};
-
 // export const profilePosts = async (req, res) => {
-//   const tokenUsedId = req.params.userId;
+//   const userId = req.userId; // ✅ from the verified token
 
 //   try {
 //     const userPosts = await prisma.post.findMany({
-//       where: { userId: tokenUsedId },
+//       where: { userId },
 //     });
+
 //     const saved = await prisma.savedPost.findMany({
-//       where: { userId: tokenUsedId },
+//       where: { userId },
 //       include: {
 //         post: true,
 //       },
 //     });
+
 //     const savedPosts = saved.map((item) => item.post);
 
 //     res.status(200).json({ userPosts, savedPosts });
@@ -174,6 +152,28 @@ export const profilePosts = async (req, res) => {
 //     res.status(500).json({ message: "Failed to get profile posts" });
 //   }
 // };
+
+export const profilePosts = async (req, res) => {
+  const tokenUsedId = req.params.userId;
+
+  try {
+    const userPosts = await prisma.post.findMany({
+      where: { userId: tokenUsedId },
+    });
+    const saved = await prisma.savedPost.findMany({
+      where: { userId: tokenUsedId },
+      include: {
+        post: true,
+      },
+    });
+    const savedPosts = saved.map((item) => item.post);
+
+    res.status(200).json({ userPosts, savedPosts });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to get profile posts" });
+  }
+};
 
 export const getNotificationNumber = async (req, res) => {
   const tokenUsedId = req.userId;
