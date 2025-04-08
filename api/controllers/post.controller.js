@@ -50,7 +50,9 @@ export const getPost = async (req, res) => {
 
     let userId;
 
-    const token = req.cookies?.token;
+    // const token = req.cookies?.token;
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(" ")[1]; // Get the token from the Authorization header
 
     if (!token) {
       userId = null;

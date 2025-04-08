@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
+// import cookieParser from "cookie-parser";
 import postRoute from "./routes/post.route.js";
 import authRoute from "./routes/auth.route.js";
 import testRoute from "./routes/test.route.js";
@@ -14,6 +14,12 @@ const allowedOrigins = [
   process.env.CLIENT_URL_LOCAL,
   process.env.CLIENT_URL_DEPLOYMENT,
 ];
+
+const corsOptions = {
+  origin: allowedOrigins, // The React app's URL
+  methods: "GET,POST,PUT,DELETE", // Allowed HTTP methods
+  credentials: true, // Allow cookies and credentials to be included
+};
 // console.log(allowedOrigins);
 
 // const allowedOrigins = [
@@ -40,10 +46,12 @@ app.use((req, res, next) => {
 //   })
 // );
 
-app.use(cors({ origin: allowedOrigins, credentials: true }));
+// app.use(cors({ origin: allowedOrigins, credentials: true }));
+// app.use(cors({ origin: allowedOrigins }));
+app.use(cors(corsOptions));
 
 app.use(express.json());
-app.use(cookieParser());
+// app.use(cookieParser());
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);

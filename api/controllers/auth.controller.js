@@ -10,10 +10,8 @@ export const register = async (req, res) => {
   const { username, email, password, phone } = req.body;
 
   try {
-    // hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // add new user
     const newUser = await prisma.user.create({
       data: {
         username,
@@ -63,18 +61,27 @@ export const login = async (req, res) => {
 
     const { password: userPassword, ...userInfo } = user;
 
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        // secure: false,
-        maxAge: age,
-        sameSite: "None",
-        //
-        credentials: true,
-      })
-      .status(200)
-      .json(userInfo);
+    res.status(200).json({ ...userInfo, token });
+
+    // res
+    //   .cookie("token", token, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     // secure: false,
+    //     maxAge: age,
+    //     sameSite: "None",
+    //     //
+    //     // credentials: true,
+    //   })
+    //   .status(200)
+    //   .json(userInfo);
+
+    // res.cookie("token", token, {
+    //   httpOnly: true,
+    //   secure: true,
+    //   maxAge: age,
+    //   sameSite: "None",
+    // });
 
     console.log(token);
   } catch (err) {
@@ -84,7 +91,8 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token").status(200).json({ message: "Logout successfully" });
+  res.status(200).json({ message: "Logout successfully" });
+  // res.clearCookie("token").status(200).json({ message: "Logout successfully" });
 };
 
 export const googleAuth = async (req, res) => {
@@ -121,20 +129,22 @@ export const googleAuth = async (req, res) => {
     const token = jwt.sign(
       { id: user.id, isAdmin: false },
       process.env.JWT_SECRET_KEY,
-      { expiresIn: "7d" }
+      { expiresIn: age }
     );
 
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: age,
-        sameSite: "None",
-        //
-        credentials: true,
-      })
-      .status(200)
-      .json({ message: "Google login successful", user });
+    res.status(200).json({ message: "Google login successful", user, token });
+
+    // res
+    //   .cookie("token", token, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     maxAge: age,
+    //     sameSite: "None",
+    //     //
+    //     // credentials: true,
+    //   })
+    //   .status(200)
+    //   .json({ message: "Google login successful", user });
   } catch (error) {
     console.error("Google Auth Error:", error);
     res.status(500).json({ message: "Failed to authenticate with Google" });
