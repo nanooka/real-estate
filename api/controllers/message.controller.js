@@ -41,10 +41,8 @@ export const addMessage = async (req, res) => {
         seenBy: {
           set: [tokenUserId],
         },
-        lastMessage: {
-          text,
-          senderId: tokenUserId,
-        },
+        lastMessage: text, // Store message text
+        lastMessageSender: tokenUserId,
       },
     });
 
