@@ -59,24 +59,91 @@
 //   console.log(`Socket.IO server running on port 4000`);
 // });
 
-import { Server } from "socket.io";
+// import { Server } from "socket.io";
 
-// Initialize Socket.IO server
+// // Initialize Socket.IO server
+// // const io = new Server(4000, {
+// //   cors: {
+// //     origin: "http://localhost:5173", // Frontend URL
+// //   },
+// // });
+
 // const io = new Server(4000, {
 //   cors: {
-//     origin: "http://localhost:5173", // Frontend URL
+//     origin: "https://real-estate-nanooka.netlify.app", // Frontend URL
 //   },
 // });
 
-const io = new Server(4000, {
+// let onlineUser = [];
+
+// // Helper functions
+// const addUser = (userId, socketId) => {
+//   const userExists = onlineUser.find((user) => user.userId === userId);
+//   if (!userExists) {
+//     onlineUser.push({ userId, socketId });
+//   }
+// };
+
+// const removeUser = (socketId) => {
+//   onlineUser = onlineUser.filter((user) => user.socketId !== socketId);
+// };
+
+// const getUser = (userId) => {
+//   return onlineUser.find((user) => user.userId === userId);
+// };
+
+// // WebSocket events
+// io.on("connection", (socket) => {
+//   console.log("A user connected:", socket.id);
+
+//   socket.on("newUser", (userId) => {
+//     addUser(userId, socket.id);
+//   });
+
+//   socket.on("sendMessage", ({ receiverId, data }) => {
+//     const receiver = getUser(receiverId);
+//     if (receiver) {
+//       io.to(receiver.socketId).emit("getMessage", data);
+//       // updateLastMessage(receiverId, data.text);
+//     }
+//   });
+
+//   socket.on("disconnect", () => {
+//     removeUser(socket.id);
+//   });
+// });
+
+// console.log("Socket.IO server running on port 4000");
+
+import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+import cors from "cors";
+import dotenv from "dotenv";
+
+// Load environment variables from .env file
+dotenv.config();
+
+// const URL = process.env.CLIENT_URL_LOCAL;
+const URL = process.env.CLIENT_URL_DEPLOYMENT;
+
+const app = express();
+app.use(cors({ origin: URL }));
+
+app.get("/", (req, res) => {
+  res.send("Socket server is up 🚀");
+});
+
+const server = http.createServer(app);
+
+const io = new Server(server, {
   cors: {
-    origin: "https://real-estate-nanooka.netlify.app", // Frontend URL
+    origin: URL,
   },
 });
 
 let onlineUser = [];
 
-// Helper functions
 const addUser = (userId, socketId) => {
   const userExists = onlineUser.find((user) => user.userId === userId);
   if (!userExists) {
@@ -92,9 +159,8 @@ const getUser = (userId) => {
   return onlineUser.find((user) => user.userId === userId);
 };
 
-// WebSocket events
 io.on("connection", (socket) => {
-  console.log("A user connected:", socket.id);
+  console.log("✅ A user connected:", socket.id);
 
   socket.on("newUser", (userId) => {
     addUser(userId, socket.id);
@@ -104,7 +170,6 @@ io.on("connection", (socket) => {
     const receiver = getUser(receiverId);
     if (receiver) {
       io.to(receiver.socketId).emit("getMessage", data);
-      // updateLastMessage(receiverId, data.text);
     }
   });
 
@@ -113,4 +178,6 @@ io.on("connection", (socket) => {
   });
 });
 
-console.log("Socket.IO server running on port 4000");
+server.listen(4000, () => {
+  console.log("⚡ Socket.IO server running on port 4000");
+});
