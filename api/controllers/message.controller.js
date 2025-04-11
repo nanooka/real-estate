@@ -35,13 +35,16 @@ export const addMessage = async (req, res) => {
       //   lastMessage: [text, tokenUserId],
       // },
       data: {
-        seenBy: {
-          set: [tokenUserId], // safer than overwriting directly
-        },
-        lastMessage: {
-          set: [text, tokenUserId], // stored as a JSON array
-        },
+        seenBy: [tokenUserId],
       },
+      // data: {
+      //   seenBy: {
+      //     set: [tokenUserId], // safer than overwriting directly
+      //   },
+      //   lastMessage: {
+      //     set: [text, tokenUserId], // stored as a JSON array
+      //   },
+      // },
     });
 
     res.status(200).json(message);
