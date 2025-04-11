@@ -75,7 +75,8 @@ model Chat {
   seenBy      String[]  @db.ObjectId
   messages    Message[]
   // lastMessage String?
-  lastMessage String[]
+  // lastMessage String[]
+  lastMessage Json?
 }
 
 model Message {
