@@ -23,6 +23,7 @@ export const getChats = async (req, res) => {
           id: true,
           username: true,
           avatar: true,
+          lastMessage: true,
         },
       });
       chat.receiver = receiver;
