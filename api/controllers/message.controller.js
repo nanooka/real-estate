@@ -30,9 +30,17 @@ export const addMessage = async (req, res) => {
       where: {
         id: chatId,
       },
+      // data: {
+      //   seenBy: [tokenUserId],
+      //   lastMessage: [text, tokenUserId],
+      // },
       data: {
-        seenBy: [tokenUserId],
-        lastMessage: [text, tokenUserId],
+        seenBy: {
+          set: [tokenUserId], // safer than overwriting directly
+        },
+        lastMessage: {
+          set: [text, tokenUserId], // stored as a JSON array
+        },
       },
     });
 
