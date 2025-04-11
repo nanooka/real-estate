@@ -10,6 +10,9 @@ export const getChats = async (req, res) => {
           hasSome: [tokenUserId],
         },
       },
+      include: {
+        lastMessage: true, // Include lastMessage from Chat model
+      },
     });
 
     for (const chat of chats) {
@@ -27,6 +30,10 @@ export const getChats = async (req, res) => {
         },
       });
       chat.receiver = receiver;
+
+      if (chat.lastMessage) {
+        chat.lastMessage = JSON.parse(chat.lastMessage); // Ensure it's parsed as JSON if needed
+      }
     }
 
     res.status(200).json(chats);
@@ -53,6 +60,7 @@ export const getChat = async (req, res) => {
             createdAt: "asc",
           },
         },
+        lastMessage: true, // Include lastMessage from Chat model
       },
     });
 
@@ -66,6 +74,10 @@ export const getChat = async (req, res) => {
         },
       },
     });
+
+    if (chat.lastMessage) {
+      chat.lastMessage = JSON.parse(chat.lastMessage); // Ensure it's parsed as JSON if needed
+    }
 
     res.status(200).json(chat);
   } catch (err) {
