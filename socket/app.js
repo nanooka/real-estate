@@ -124,8 +124,8 @@ import dotenv from "dotenv";
 // Load environment variables from .env file
 dotenv.config();
 
-const URL = process.env.CLIENT_URL_LOCAL;
-// const URL = process.env.CLIENT_URL_DEPLOYMENT;
+// const URL = process.env.CLIENT_URL_LOCAL;
+const URL = process.env.CLIENT_URL_DEPLOYMENT;
 
 const app = express();
 app.use(cors({ origin: URL }));
