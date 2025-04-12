@@ -10,10 +10,14 @@ export const getChats = async (req, res) => {
           hasSome: [tokenUserId],
         },
       },
-      // include: {
-      //   lastMessage: true, // Include lastMessage from Chat model
-      //   lastMessageSender: true,
-      // },
+      select: {
+        id: true,
+        userIDs: true,
+        createdAt: true,
+        seenBy: true,
+        lastMessage: true,
+        lastMessageSender: true,
+      },
     });
 
     for (const chat of chats) {
@@ -27,14 +31,9 @@ export const getChats = async (req, res) => {
           id: true,
           username: true,
           avatar: true,
-          // lastMessage: true,
         },
       });
       chat.receiver = receiver;
-
-      // if (chat.lastMessage) {
-      //   chat.lastMessage = JSON.parse(chat.lastMessage); // Ensure it's parsed as JSON if needed
-      // }
     }
 
     res.status(200).json(chats);
@@ -61,7 +60,6 @@ export const getChat = async (req, res) => {
             createdAt: "asc",
           },
         },
-        // lastMessage: true, // Include lastMessage from Chat model
       },
     });
 
@@ -75,10 +73,6 @@ export const getChat = async (req, res) => {
         },
       },
     });
-
-    // if (chat.lastMessage) {
-    //   chat.lastMessage = JSON.parse(chat.lastMessage); // Ensure it's parsed as JSON if needed
-    // }
 
     res.status(200).json(chat);
   } catch (err) {
@@ -95,8 +89,8 @@ export const addChat = async (req, res) => {
     const existingChat = await prisma.chat.findFirst({
       where: {
         AND: [
-          { userIDs: { has: tokenUserId } }, // Ensure one ID is the sender's
-          { userIDs: { has: receiverId } }, // Ensure the other ID is the receiver's
+          { userIDs: { has: tokenUserId } },
+          { userIDs: { has: receiverId } },
         ],
       },
     });
