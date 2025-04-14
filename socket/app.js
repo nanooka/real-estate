@@ -127,8 +127,14 @@ dotenv.config();
 // const URL = process.env.CLIENT_URL_LOCAL;
 const URL = process.env.CLIENT_URL_DEPLOYMENT;
 
+const corsOptions = {
+  origin: URL,
+  methods: ["GET", "POST"],
+  credentials: true,
+};
+
 const app = express();
-app.use(cors({ origin: URL }));
+app.use(cors(corsOptions));
 
 app.get("/", (req, res) => {
   res.send("Socket server is up 🚀");
@@ -137,9 +143,7 @@ app.get("/", (req, res) => {
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: {
-    origin: URL,
-  },
+  cors: corsOptions,
 });
 
 let onlineUser = [];
