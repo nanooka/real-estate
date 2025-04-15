@@ -122,19 +122,28 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 // Load environment variables from .env file
+const app = express();
 dotenv.config();
 
 // const URL = process.env.CLIENT_URL_LOCAL;
-const URL = process.env.CLIENT_URL_DEPLOYMENT;
+// const URL = process.env.CLIENT_URL_DEPLOYMENT;
+const URL = "https://real-estate-nanooka.netlify.app";
 
-const corsOptions = {
-  origin: URL,
-  methods: ["GET", "POST"],
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: URL,
+//   methods: ["GET", "POST"],
+//   credentials: true,
+// };
 
-const app = express();
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(
+  cors({
+    origin: URL, // ✅ your frontend URL
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 app.get("/", (req, res) => {
   res.send("Socket server is up 🚀");
