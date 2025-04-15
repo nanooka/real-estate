@@ -152,7 +152,11 @@ app.get("/", (req, res) => {
 const server = http.createServer(app);
 
 const io = new Server(server, {
-  cors: corsOptions,
+  cors: {
+    origin: URL, // ✅ allow your frontend
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
 });
 
 let onlineUser = [];
