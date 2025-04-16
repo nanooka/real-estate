@@ -12,7 +12,7 @@
 
 // // const io = new Server({
 // //   cors: {
-// //     origin: "https://real-estate-nanooka.netlify.app",
+// //     origin: "https://prime-estate-nanooka.netlify.app",
 // //   },
 // // });
 
@@ -70,7 +70,7 @@
 
 // const io = new Server(4000, {
 //   cors: {
-//     origin: "https://real-estate-nanooka.netlify.app", // Frontend URL
+//     origin: "https://prime-estate-nanooka.netlify.app", // Frontend URL
 //   },
 // });
 
@@ -126,8 +126,9 @@ const app = express();
 dotenv.config();
 
 // const URL = process.env.CLIENT_URL_LOCAL;
-// const URL = process.env.CLIENT_URL_DEPLOYMENT;
-const URL = "https://real-estate-nanooka.netlify.app";
+const URL = process.env.CLIENT_URL_DEPLOYMENT;
+// const URL = "http://localhost:5173";
+// const URL = "https://prime-estate-nanooka.netlify.app";
 
 // const corsOptions = {
 //   origin: URL,

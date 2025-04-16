@@ -24,7 +24,7 @@ const corsOptions = {
 
 // const allowedOrigins = [
 //   "http://localhost:5173",
-//   "https://real-estate-nanooka.netlify.app",
+//   "https://prime-estate-nanooka.netlify.app",
 // ];
 
 app.use((req, res, next) => {
