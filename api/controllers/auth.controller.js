@@ -132,7 +132,11 @@ export const googleAuth = async (req, res) => {
       { expiresIn: age }
     );
 
-    res.status(200).json({ message: "Google login successful", user, token });
+    const { ...userInfo } = user;
+
+    res
+      .status(200)
+      .json({ message: "Google login successful", user: userInfo, token });
 
     // res
     //   .cookie("token", token, {
@@ -145,6 +149,7 @@ export const googleAuth = async (req, res) => {
     //   })
     //   .status(200)
     //   .json({ message: "Google login successful", user });
+    // console.log(res);
   } catch (error) {
     console.error("Google Auth Error:", error);
     res.status(500).json({ message: "Failed to authenticate with Google" });
