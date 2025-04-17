@@ -125,8 +125,8 @@ import dotenv from "dotenv";
 const app = express();
 dotenv.config();
 
-const URL = process.env.CLIENT_URL_LOCAL;
-// const URL = process.env.CLIENT_URL_DEPLOYMENT;
+// const URL = process.env.CLIENT_URL_LOCAL;
+const URL = process.env.CLIENT_URL_DEPLOYMENT;
 // const URL = "http://localhost:5173";
 // const URL = "https://prime-estate-nanooka.netlify.app";
 
