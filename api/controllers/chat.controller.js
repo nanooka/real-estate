@@ -102,8 +102,12 @@ export const addChat = async (req, res) => {
     const newChat = await prisma.chat.create({
       data: {
         userIDs: [tokenUserId, receiverId],
+        lastMessage: "",
+        lastMessageSender: tokenUserId,
       },
     });
+
+    console.log("userId", tokenUserId);
 
     res.status(200).json(newChat);
   } catch (err) {
