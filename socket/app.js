@@ -7,8 +7,8 @@ import dotenv from "dotenv";
 const app = express();
 dotenv.config();
 
-const URL = process.env.CLIENT_URL_LOCAL;
-// const URL = process.env.CLIENT_URL_DEPLOYMENT;
+// const URL = process.env.CLIENT_URL_LOCAL;
+const URL = process.env.CLIENT_URL_DEPLOYMENT;
 
 // const corsOptions = {
 //   origin: URL,
