@@ -10,14 +10,6 @@ dotenv.config();
 // const URL = process.env.CLIENT_URL_LOCAL;
 const URL = process.env.CLIENT_URL_DEPLOYMENT;
 
-// const corsOptions = {
-//   origin: URL,
-//   methods: ["GET", "POST"],
-//   credentials: true,
-// };
-
-// app.use(cors(corsOptions));
-
 app.use(
   cors({
     origin: URL,
