@@ -1,29 +1,91 @@
 import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 
+// export const getPosts = async (req, res) => {
+//   const query = req.query;
+
+//   try {
+//     const posts = await prisma.post.findMany({
+//       where: {
+//         country: query.country || undefined,
+//         city: query.city || undefined,
+//         status: query.type || undefined,
+//         property: query.property || undefined,
+//         bedroom: parseInt(query.bedroom) || undefined,
+//         price: {
+//           gte: parseInt(query.minPrice) || 0,
+//           lte: parseInt(query.maxPrice) || 10000000,
+//         },
+//         area: {
+//           gte: parseInt(query.minArea) || 0,
+//           lte: parseInt(query.maxArea) || 10000000,
+//         },
+//       },
+//     });
+
+//     res.status(200).json(posts);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ message: "failed to get posts" });
+//   }
+// };
+
 export const getPosts = async (req, res) => {
   const query = req.query;
 
-  try {
-    const posts = await prisma.post.findMany({
-      where: {
-        country: query.country || undefined,
-        city: query.city || undefined,
-        status: query.type || undefined,
-        property: query.property || undefined,
-        bedroom: parseInt(query.bedroom) || undefined,
-        price: {
-          gte: parseInt(query.minPrice) || 0,
-          lte: parseInt(query.maxPrice) || 10000000,
-        },
-        area: {
-          gte: parseInt(query.minArea) || 0,
-          lte: parseInt(query.maxArea) || 10000000,
-        },
-      },
-    });
+  const page = parseInt(query.page) || 1;
+  const limit = parseInt(query.limit) || 10;
+  const skip = (page - 1) * limit;
 
-    res.status(200).json(posts);
+  try {
+    const [posts, total] = await Promise.all([
+      prisma.post.findMany({
+        where: {
+          country: query.country || undefined,
+          city: query.city || undefined,
+          status: query.type || undefined,
+          property: query.property || undefined,
+          bedroom: query.bedroom ? parseInt(query.bedroom) : undefined,
+          price: {
+            gte: query.minPrice ? parseInt(query.minPrice) : 0,
+            lte: query.maxPrice ? parseInt(query.maxPrice) : 10000000,
+          },
+          area: {
+            gte: query.minArea ? parseInt(query.minArea) : 0,
+            lte: query.maxArea ? parseInt(query.maxArea) : 10000000,
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        skip,
+        take: limit,
+      }),
+
+      prisma.post.count({
+        where: {
+          country: query.country || undefined,
+          city: query.city || undefined,
+          status: query.type || undefined,
+          property: query.property || undefined,
+          bedroom: query.bedroom ? parseInt(query.bedroom) : undefined,
+          price: {
+            gte: query.minPrice ? parseInt(query.minPrice) : 0,
+            lte: query.maxPrice ? parseInt(query.maxPrice) : 10000000,
+          },
+          area: {
+            gte: query.minArea ? parseInt(query.minArea) : 0,
+            lte: query.maxArea ? parseInt(query.maxArea) : 10000000,
+          },
+        },
+      }),
+    ]);
+
+    res.status(200).json({
+      items: posts,
+      total,
+      hasMore: skip + posts.length < total,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "failed to get posts" });
