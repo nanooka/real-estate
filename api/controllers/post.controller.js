@@ -43,8 +43,8 @@ export const getPosts = async (req, res) => {
         where: {
           country: query.country || undefined,
           city: query.city || undefined,
-          status: query.type || undefined,
-          property: query.property || undefined,
+          status: query.status || undefined,
+          propertyType: query.propertyType || undefined,
           bedroom: query.bedroom ? parseInt(query.bedroom) : undefined,
           price: {
             gte: query.minPrice ? parseInt(query.minPrice) : 0,
@@ -59,15 +59,16 @@ export const getPosts = async (req, res) => {
           createdAt: "desc",
         },
         skip,
-        take: limit,
+        skip: query.skip ? parseInt(query.skip) : 0,
+        take: query.take ? parseInt(query.take) : 12,
       }),
 
       prisma.post.count({
         where: {
           country: query.country || undefined,
           city: query.city || undefined,
-          status: query.type || undefined,
-          property: query.property || undefined,
+          status: query.status || undefined,
+          propertyType: query.propertyType || undefined,
           bedroom: query.bedroom ? parseInt(query.bedroom) : undefined,
           price: {
             gte: query.minPrice ? parseInt(query.minPrice) : 0,
